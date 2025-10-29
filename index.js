@@ -12,8 +12,13 @@ const conn = require("./db/conn");
 const Tough = require("./models/Tought");
 const User = require("./models/User");
 
+//Routes
 const toughtsRoutes = require("./routes/toughtsRoutes");
+const authRoutes = require("./routes/authRoutes");
+
+// Controllers
 const ToughtsCotnroller = require("./controllers/ToughtsCotnroller");
+const AuthController = require("./controllers/AuthController");
 
 app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
@@ -59,7 +64,10 @@ app.use((req, res, next) => {
 });
 
 app.use("toughts", toughtsRoutes);
+app.use("/", authRoutes);
+
 app.get("/", ToughtsCotnroller.showToughts);
+
 conn
   // .sync({ force: true })
   .sync()
