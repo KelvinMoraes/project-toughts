@@ -56,8 +56,9 @@ app.use(flash());
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
-  if (req.session.userid) {
+  if (req.session.userId) {
     res.locals.session = req.session;
+    req.flash("message", "Usuário sem premissão!");
   }
 
   next();
