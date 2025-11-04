@@ -64,7 +64,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("toughts", toughtsRoutes);
+app.use("/toughts", toughtsRoutes);
 app.use("/", authRoutes);
 
 app.get("/", ToughtsCotnroller.showToughts);
