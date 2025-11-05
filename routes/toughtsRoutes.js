@@ -7,7 +7,10 @@ const ToughtsCotnroller = require("../controllers/ToughtsCotnroller");
 
 router.get("/", ToughtsCotnroller.showToughts);
 router.get("/dashboard", checkAuth, ToughtsCotnroller.dashboard);
-router.get("/create", checkAuth, ToughtsCotnroller.createToughts);
-router.post("/create", checkAuth, ToughtsCotnroller.createToughtsSave);
+router.get("/create", checkAuth, ToughtsCotnroller.create);
+router.post("/create", checkAuth, ToughtsCotnroller.createSave);
+router.post("/delete", checkAuth, ToughtsCotnroller.delete);
+router.get("/update/:id", checkAuth, ToughtsCotnroller.update);
+router.post("/update", checkAuth, ToughtsCotnroller.updateSave);
 
 module.exports = router;
