@@ -1,14 +1,39 @@
 const { create } = require("express-handlebars");
 const Tought = require("../models/Tought");
 const User = require("../models/User");
+const { Op } = require("sequelize");
 
 module.exports = class ToughtsCotnroller {
   static async showToughts(req, res) {
-    const auxToughts = await Tought.findAll({ include: User });
+    let search = "";
+    let order = "DESC";
+
+    if (req.query.search) {
+      search = req.query.search;
+    }
+
+    if (req.query.order === "old") {
+      order = "ASC";
+    } else {
+      order = "DESC";
+    }
+
+    const auxToughts = await Tought.findAll({
+      include: User,
+      where: {
+        title: { [Op.like]: `%${search}%` },
+      },
+      order: [["createdAt", order]],
+    });
 
     const toughts = auxToughts?.map((result) => result.get({ plain: true }));
 
-    res.render("toughts/home", { toughts });
+    let toughtsQtd = toughts.length;
+
+    if (toughtsQtd === 0) {
+      toughtsQtd = false;
+    }
+    res.render("toughts/home", { toughts, search, toughtsQtd });
   }
 
   static async update(req, res) {
